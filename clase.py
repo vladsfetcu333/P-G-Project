@@ -17,8 +17,7 @@ except Exception as e:
     print(f"Error connecting to database: {e}")
 
 Session = sessionmaker(bind=engine)
-session = Session()
-
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 class Plant(Base):
