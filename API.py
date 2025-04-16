@@ -21,7 +21,7 @@ async def root():
 
 @app.post("/plants/", response_model=PlantRead)
 def create_plant(plant: PlantCreate, db: Session = Depends(get_db)):
-    db_plant = Plant(**plant.dict())
+    db_plant = Plant(**plant.model_dump())
     db.add(db_plant)
     db.commit()
     db.refresh(db_plant)
@@ -44,7 +44,7 @@ def update_plant(plant_id: int, updated: PlantUpdate, db: Session = Depends(get_
     plant = db.query(Plant).filter(Plant.id == plant_id).first()
     if not plant:
         raise HTTPException(status_code=404, detail="Plant not found")
-    for field, value in updated.dict().items():
+    for field, value in updated.model_dump().items():
         setattr(plant, field, value)
     
     db.commit()

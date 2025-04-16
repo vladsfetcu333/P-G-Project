@@ -1,5 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
+
 class PlantCreate(BaseModel):
     name: str
     location: str
@@ -7,10 +8,11 @@ class PlantCreate(BaseModel):
 
 class PlantRead(PlantCreate):
     id: int
+    name: str
+    location: str
+    capacity: int
+    model_config = ConfigDict(from_attributes=True)
 
-    class Config:
-        orm_mode = True
-        
 class PlantUpdate(BaseModel):
     name: Optional[str] = None
     location: Optional[str] = None
